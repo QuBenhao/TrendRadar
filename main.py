@@ -3327,6 +3327,7 @@ def send_to_notifications(
     report_data = prepare_report_data(stats, failed_ids, new_titles, id_to_name, mode)
 
     feishu_url = CONFIG["FEISHU_WEBHOOK_URL"]
+    feishu_extra_url = CONFIG["FEISHU_WEBHOOK_EXTRA_URL"]
     dingtalk_url = CONFIG["DINGTALK_WEBHOOK_URL"]
     wework_url = CONFIG["WEWORK_WEBHOOK_URL"]
     telegram_token = CONFIG["TELEGRAM_BOT_TOKEN"]
@@ -3346,6 +3347,10 @@ def send_to_notifications(
     if feishu_url:
         results["feishu"] = send_to_feishu(
             feishu_url, report_data, report_type, update_info_to_send, proxy_url, mode
+        )
+    if feishu_extra_url:
+        send_to_feishu(
+            feishu_extra_url, report_data, report_type, update_info_to_send, proxy_url, mode
         )
 
     # 发送到钉钉
