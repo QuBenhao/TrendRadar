@@ -138,6 +138,9 @@ def load_config():
     config["FEISHU_WEBHOOK_URL"] = os.environ.get(
         "FEISHU_WEBHOOK_URL", ""
     ).strip() or webhooks.get("feishu_url", "")
+    config["FEISHU_WEBHOOK_EXTRA_URL"] = os.environ.get(
+        "FEISHU_WEBHOOK_EXTRA_URL", ""
+    ).strip() or webhooks.get("feishu_url", "")
     config["DINGTALK_WEBHOOK_URL"] = os.environ.get(
         "DINGTALK_WEBHOOK_URL", ""
     ).strip() or webhooks.get("dingtalk_url", "")
@@ -184,6 +187,9 @@ def load_config():
     if config["FEISHU_WEBHOOK_URL"]:
         source = "环境变量" if os.environ.get("FEISHU_WEBHOOK_URL") else "配置文件"
         notification_sources.append(f"飞书({source})")
+    if config["FEISHU_WEBHOOK_EXTRA_URL"]:
+        source = "环境变量" if os.environ.get("FEISHU_WEBHOOK_EXTRA_URL") else "配置文件"
+        notification_sources.append(f"飞书Extra({source})")
     if config["DINGTALK_WEBHOOK_URL"]:
         source = "环境变量" if os.environ.get("DINGTALK_WEBHOOK_URL") else "配置文件"
         notification_sources.append(f"钉钉({source})")
@@ -4115,6 +4121,7 @@ class NewsAnalyzer:
         return any(
             [
                 CONFIG["FEISHU_WEBHOOK_URL"],
+                CONFIG["FEISHU_WEBHOOK_EXTRA_URL"],
                 CONFIG["DINGTALK_WEBHOOK_URL"],
                 CONFIG["WEWORK_WEBHOOK_URL"],
                 (CONFIG["TELEGRAM_BOT_TOKEN"] and CONFIG["TELEGRAM_CHAT_ID"]),
